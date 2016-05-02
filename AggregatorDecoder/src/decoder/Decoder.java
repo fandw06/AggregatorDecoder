@@ -172,7 +172,7 @@ public class Decoder {
 				for (int i = 0; i<3; i++)
 					all[i] = calibrateAcceleration(packet.payload[i*2+1]);
 				
-				int vol = ((packet.payload[7])<<2)+((packet.payload[9])>>>6);
+				int vol = ((packet.payload[7] & 0b00111111)<<2)+((packet.payload[9])>>>6);
 				all[3] = calibrateVoltage(vol);
 				return all;
 			}
@@ -236,7 +236,7 @@ public class Decoder {
 	 * @return Calibrated acceleration
 	 */
 	private static double calibrateVoltage(int data) {
-		return (double)(data)/(double)0xFF*ADC_RANGE;
+		return (double)(data)/(double)255*ADC_RANGE;
 	}
 
 	/**
@@ -247,7 +247,7 @@ public class Decoder {
 	 * @return Calibrated acceleration
 	 */
 	private static double calibrateECG(int data) {
-		return (double)(data)/(double)0xFF*ADC_RANGE;
+		return (double)(data)/(double)255*ADC_RANGE;
 	}
 	
 	
